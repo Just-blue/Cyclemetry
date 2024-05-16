@@ -22,11 +22,16 @@ def build_figure(config, x, y):
         )
     plt.rcParams["lines.linewidth"] = config["line_width"]
     plt.axis("off")
+
     plt.plot(
         x,
         y,
         color=config["color"],
     )
+
+    if "reverse" in config and config["reverse"] is True:
+        # 反转x轴
+        plt.gca().invert_xaxis()
 
     if "margin" in config.keys():
         ax = plt.gca()

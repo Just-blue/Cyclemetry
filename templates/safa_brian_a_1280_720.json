@@ -1,6 +1,11 @@
 {
     "cadence": {
-      "hide": true
+        "color": "#ffffff96",
+        "x": 50,
+        "y": 234,
+        "font_size": 50,
+        "hide": false,
+        "suffix": ""
     },
     "course": {
       "dpi": 150,
@@ -47,12 +52,18 @@
     "gradient": {
       "color": "#ffffff96",
       "x": 10,
-     "y": 528, "hide": false,
+      "y": 528,
+      "hide": false,
       "font_size": 50,
       "suffix": ""
     },
     "heartrate": {
-      "hide": true
+        "color": "#ffffff96",
+        "x": 50,
+        "y": 434,
+        "font_size": 50,
+        "hide": false,
+        "suffix": ""
     },
     "power": {
       "color": "#ffffff96",
@@ -84,10 +95,22 @@
       }
     },
     "time": {
-      "hide": true
+      "hide": false,
+      "hours_offset":0,
+      "format":"%Y-%m-%d %H:%M:%S",
+      "color": "#ffffff96",
+      "x": 50,
+      "y": 134,
+      "font_size": 50,
+      "suffix": ""
     },
     "temperature": {
-      "hide": true
+        "color": "#ffffff96",
+        "x": 50,
+        "y": 34,
+        "font_size": 50,
+        "hide": false,
+        "suffix": ""
     },
     "global": {
       "font_size": 30,
@@ -97,13 +120,13 @@
       "opacity": 0.5
     },
     "scene": {
-      "start": 5,
-      "end": 500,
-      "fps": 1,
+      "start": 0,
+      "end": 653,
+      "fps": 30,
       "height": 720,
       "width": 1280,
-      "quicktime_compatible": true,
-      "output_filename": "out.mov"
+      "quicktime_compatible": false,
+      "output_filename": "out720p.mov"
     },
     "labels": [
       {
@@ -111,7 +134,7 @@
         "text": "MPH",
         "x": 10,
         "y": 193,
-        "hide": false,
+        "hide": true,
         "font_size": 40
       },
       {

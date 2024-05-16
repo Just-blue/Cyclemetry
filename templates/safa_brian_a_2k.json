@@ -102,8 +102,8 @@
   },
   "scene": {
     "fps": 30,
-	"start": 5082,
-	"end": 5673,
+	"start": 0,
+	"end": 655,
     "height": 1536,
     "width": 2048,
     "quicktime_compatible": true,

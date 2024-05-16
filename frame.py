@@ -105,8 +105,11 @@ class Frame:
                     else:
                         if attribute == constant.ATTR_TIME:
                             # TODO - try to use timezone instead of offset
-                            value += timedelta(hours=config["hours_offset"])
+                            value += timedelta(seconds=config["second_offset"])
                             value = value.strftime(config["format"])
+                            if config["format"].endswith(".%f"):
+                                value = value[:-3]  # 只保留到2位小数
+
                         img = self.draw_value(img, value, config)
         for label in self.labels:
             if "hide" not in label.keys() or not label["hide"]:

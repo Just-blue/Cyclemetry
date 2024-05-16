@@ -7,6 +7,9 @@ from scipy.interpolate import interp1d
 
 import constant
 from gradient import gradient, smooth_gradients
+import codecs
+import pytz
+import datetime
 
 
 def gpx_attribute_map(filename="gpx_attribute_map.json"):
@@ -16,7 +19,8 @@ def gpx_attribute_map(filename="gpx_attribute_map.json"):
 
 class Activity:
     def __init__(self, filename):
-        self.gpx = gpxpy.parse(open(filename, "r"))
+        with codecs.open(filename, "r", encoding="utf-8") as file:
+            self.gpx = gpxpy.parse(file)
         self.set_valid_attributes()
         self.parse_data()
 
@@ -83,7 +87,10 @@ class Activity:
                     case constant.ATTR_ELEVATION:
                         data[attribute].append(point.elevation)
                     case constant.ATTR_TIME:
-                        data[attribute].append(point.time)
+                        local_time = point.time.astimezone(
+                            pytz.timezone("Asia/Shanghai")
+                        )
+                        data[attribute].append(local_time)
                     case constant.ATTR_SPEED:
                         data[attribute].append(track_segment.get_speed(ii))
                         # data[attribute].append(point.speed) - for some reason, point.speed isn't interpreted correctly (always None). maybe try other gpx files to see if it works in other cases?
@@ -139,3 +146,25 @@ class Activity:
                 )
                 exit(1)
             setattr(self, attribute, data[start:end])
+
+    def sth(self, start_time, end_time):
+        """_summary_
+
+        Args:
+            start_time (_type_): _description_  2024-05-15 07:12:37
+            end_time (_type_): _description_  2024-05-15 07:26:04
+
+        Returns:
+            _type_: _description_
+        """
+
+        start_time = datetime.datetime.strptime(
+            f"{start_time} +0800", "%Y-%m-%d %H:%M:%S %z"
+        )
+        end_time = datetime.datetime.strptime(
+            f"{end_time} +0800", "%Y-%m-%d %H:%M:%S %z"
+        )
+
+        start = self.time.index(start_time)
+        end = self.time.index(end_time)
+        return start, end

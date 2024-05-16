@@ -4,20 +4,20 @@
   },
   "course": {
     "dpi": 300,
-    "x": -35,
-    "y": -174,
+    "x": -100,
+    "y": -160,
     "hide": false,
     "line_width": 1.75,
     "point_weight": 80,
-    "width": 270,
-    "height": 630,
+    "width": 1100,
+    "height": 900,
     "color": "#f4f4f4",
     "margin": 0.1,
     "sub_point": {
       "point_weight": 345,
       "opacity": 0.52
     },
-    "rotation": 150
+    "rotation": 95
   },
   "elevation": {
     "dpi": 300,
@@ -30,8 +30,7 @@
       "line_width": 2,
       "hide": false,
       "x": -193,
-      "y": 1470,
-      "reverse": true,
+      "y": 1647,
       "width": 1200,
       "height": 600,
       "fill_opacity": 0.65,
@@ -44,31 +43,25 @@
         "x_offset": 20,
         "y_offset": 20,
         "font_size": 12.5,
-        "units": ["metric"]
+        "units": ["metric", "imperial"]
       }
     }
   },
   "gradient": {
     "color": "#ffffff96",
-    "x": 80,
-    "y": 1900,
+    "x": 37,
+    "y": 1928,
     "hide": false,
     "font_size": 192,
     "suffix": ""
   },
   "heartrate": {
-    "color": "#ffffff96",
-    "opacity": 0.3,
-    "x": 80,
-    "y": 939,
-    "font_size": 255,
-    "hide": false,
-    "suffix": ""
+    "hide": true
   },
   "power": {
     "color": "#ffffff96",
     "x": 80,
-    "y": 1244,
+    "y": 1334,
     "font_size": 255,
     "hide": false,
     "suffix": ""
@@ -76,24 +69,26 @@
   "speed": {
     "hide": false,
     "opacity": 0.3,
+    "imperial": {
+      "color": "#ffffff96",
+      "opacity": 0.3,
+      "x": 80,
+      "y": 724,
+      "font_size": 255,
+      "hide": false,
+      "suffix": ""
+    },
     "metric": {
       "color": "#ffffff96",
       "x": 80,
-      "y": 634,
+      "y": 1029,
       "font_size": 255,
       "hide": false,
       "suffix": ""
     }
   },
   "time": {
-    "color": "#ffffff96",
-    "x": 3200,
-    "y": 2000,
-    "second_offset":-816,
-    "format": "%M:%S.%f",
-    "font_size": 125,
-    "hide": false,
-    "suffix": ""
+    "hide": true
   },
   "temperature": {
     "hide": true
@@ -107,21 +102,19 @@
   },
   "scene": {
     "fps": 30,
-    "start": 0,
-    "end": 0,
-    "start_time": "2024-05-15 07:12:20",
-    "end_time": "2024-05-15 07:26:18",
-    "height": 2160,
-    "width": 3840,
-    "quicktime_compatible": false,
-    "output_filename": "out4k_18p.mov"
+	"start": 0,
+	"end": 20,
+    "height": 1536,
+    "width": 2048,
+    "quicktime_compatible": true,
+    "output_filename": "out.mov"
   },
   "labels": [
     {
       "color": "#ffffff96",
-      "text": "HR",
+      "text": "MPH",
       "x": 100,
-      "y": 910,
+      "y": 695,
       "hide": false,
       "font_size": 70
     },
@@ -129,7 +122,7 @@
       "color": "#ffffff96",
       "text": "KMH",
       "x": 100,
-      "y": 605,
+      "y": 1000,
       "hide": false,
       "font_size":70
     },
@@ -137,7 +130,7 @@
       "color": "#ffffff96",
       "text": "PWR",
       "x": 100,
-      "y": 1215,
+      "y": 1305,
       "hide": false,
       "font_size": 70,
       "opacity": 0.5
@@ -145,8 +138,8 @@
     {
       "color": "#ffffff96",
       "text": "Grad.",
-      "x": 85,
-      "y": 1859,
+      "x": 44,
+      "y": 1889,
       "hide": false,
       "font_size": 60,
       "opacity": 0.5
