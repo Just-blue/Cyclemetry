@@ -10,7 +10,7 @@ from constant import FONTS_DIR
 from utils import printc
 
 
-def build_figure(config, x, y):
+def build_figure(config, x, y, ref=None):
     fig = plt.figure()
     if "width" and "height" in config.keys():
         padding = 200
@@ -42,17 +42,24 @@ def build_figure(config, x, y):
             plt.axis(config["axis"])
         except ValueError as e:
             printc(f"Invalid axis value: {e}", "red")
-    if "fill_opacity" in config.keys():
+    if "slope_area" in config.keys() and ref is not None:
+        grades = np.array(ref)
         min_threshold = min(y) * 0.99
         y = np.array(y)
-        plt.fill_between(
-            x,
-            y,
-            min_threshold,
-            where=(y > min_threshold),
-            facecolor=config["color"],
-            alpha=config["fill_opacity"],
-        )
+
+        # 根据坡度值填充颜色
+        for item in config["slope_area"]:
+            plt.fill_between(
+                x,
+                y,
+                min_threshold,
+                where=(grades >= item["start"]) & (grades < item["end"]),
+                facecolor=config["color"],
+                alpha=item["fill_opacity"],
+                label=f"{item['start']}% - { item['end']}% Grade",
+                linewidth=0,
+            )
+
     return fig
 
 

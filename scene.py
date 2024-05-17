@@ -59,6 +59,7 @@ class Scene:
             self.template[constant.ATTR_ELEVATION]["profile"],
             [ii for ii in range(len(self.activity.elevation))],
             self.activity.elevation,
+            self.activity.gradient,
         )
 
     # warning: quicktime_compatible codec produces nearly x5 larger file

@@ -32,9 +32,8 @@
       "x": -193,
       "y": 1470,
       "reverse": true,
-      "width": 1200,
+      "width": 1000,
       "height": 600,
-      "fill_opacity": 0.65,
       "rotation": 0,
       "point_weight": 14,
       "point_label": {
@@ -45,7 +44,26 @@
         "y_offset": 20,
         "font_size": 12.5,
         "units": ["metric"]
+      },
+      "slope_area" : [
+        {"start": 0,
+        "end":6,
+        "fill_opacity":0.1
+        },
+        {"start":6,
+         "end":10,
+         "fill_opacity":0.3
+        },
+        {"start": 10,
+        "end":12.5,
+        "fill_opacity":0.5
+       },
+       {"start": 12.5,
+       "end":100,
+       "fill_opacity":0.75
       }
+      ]
+
     }
   },
   "gradient": {
@@ -92,7 +110,7 @@
     "second_offset":-816,
     "format": "%M:%S.%f",
     "font_size": 125,
-    "hide": false,
+    "hide": true,
     "suffix": ""
   },
   "temperature": {
@@ -106,7 +124,7 @@
     "opacity": 0.5
   },
   "scene": {
-    "fps": 30,
+    "fps": 60,
     "start": 0,
     "end": 0,
     "start_time": "2024-05-15 07:12:20",

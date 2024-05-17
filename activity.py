@@ -1,111 +1,95 @@
-import json
-from collections import defaultdict
-
-import gpxpy
+import pandas as pd
 import numpy as np
 from scipy.interpolate import interp1d
+from collections import defaultdict
 
 import constant
-from gradient import gradient, smooth_gradients
-import codecs
-import pytz
+from gradient import smooth_gradients
+from fitparse import FitFile
 import datetime
-
-
-def gpx_attribute_map(filename="gpx_attribute_map.json"):
-    with open(filename, "r") as file:
-        return json.load(file)
 
 
 class Activity:
     def __init__(self, filename):
-        with codecs.open(filename, "r", encoding="utf-8") as file:
-            self.gpx = gpxpy.parse(file)
+        self.fitfile = FitFile(filename)
+        self.valid_attributes = set()
         self.set_valid_attributes()
         self.parse_data()
 
     def set_valid_attributes(self):
-        attributes = set()
-        attribute_map = gpx_attribute_map()
-        tag_map = {}
-        track_points = self.gpx.tracks[0].segments[0].points
-        # not all extensions are present in all track points
-        # TODO this needs work - probably don't need to set attributes - should be able to parse data in single pass
-        track_points = [
-            track_points[0],
-            track_points[len(track_points) // 2],
-            track_points[-1],
-        ]
-        for track_point in track_points:
-            (
-                attributes.update({constant.ATTR_COURSE, constant.ATTR_SPEED})
-                if track_point.latitude and track_point.longitude
-                else None
-            )
-            attributes.add(constant.ATTR_TIME) if track_point.time else None
-            attributes.add(constant.ATTR_ELEVATION) if track_point.elevation else None
-            for ii, extension in enumerate(track_point.extensions):
-                if extension.tag in attribute_map.keys():
-                    attributes.add(attribute_map[extension.tag])
-                    tag_map[attribute_map[extension.tag]] = [ii]
-                for jj, child_extension in enumerate(extension):
-                    if child_extension.tag in attribute_map.keys():
-                        attributes.add(attribute_map[child_extension.tag])
-                        tag_map[attribute_map[child_extension.tag]] = [ii, jj]
-            if {constant.ATTR_COURSE, constant.ATTR_ELEVATION}.issubset(attributes):
-                attributes.add(constant.ATTR_GRADIENT)
+        records = []
 
-        self.valid_attributes = list(attributes)
-        self.tag_map = tag_map
+        # 遍历FIT文件中的所有记录
+        for record in self.fitfile.get_messages("record"):
+            record_data = {}
+            for data in record:
+                record_data[data.name] = data.value
+            records.append(record_data)
+
+        # 创建DataFrame
+        df = pd.DataFrame(records)
+
+        # 选择需要的列并设置索引
+        df = df[
+            [
+                "timestamp",
+                "power",
+                "altitude",
+                "position_lat",
+                "position_long",
+                "cadence",
+                "temperature",
+                "grade",
+                "speed",
+                "heart_rate",
+            ]
+        ]
+        df["timestamp"] = (
+            pd.to_datetime(df["timestamp"])
+            .dt.tz_localize("UTC")
+            .dt.tz_convert("Asia/Shanghai")
+            .dt.tz_localize(None)
+        )
+
+        df.set_index("timestamp", inplace=True, drop=False)
+
+        # # 对每列缺失的数据进行补数
+        df["power"] = df["power"].interpolate(method="linear")
+        df["cadence"] = df["cadence"].interpolate(method="linear")
+        df["temperature"] = df["temperature"].interpolate(method="linear")
+        df["speed"] = df["speed"].interpolate(method="linear")
+        df["heart_rate"] = df["heart_rate"].interpolate(method="linear")
+        df.fillna(method="ffill", inplace=True)  # 前向填充
+        df.fillna(method="bfill", inplace=True)  # 后向填充
+        df["course"] = list(zip(df["position_lat"], df["position_long"]))
+        df.rename(
+            columns={
+                "altitude": constant.ATTR_ELEVATION,
+                "grade": constant.ATTR_GRADIENT,
+                "heart_rate": constant.ATTR_HEARTRATE,
+                "timestamp": constant.ATTR_TIME,
+            },
+            inplace=True,
+        )
+        self.df = df
 
     def parse_data(self):
-        def parse_attribute(index: tuple[int], trackpoint: gpxpy.gpx.GPXTrackPoint):
-            try:
-                value = trackpoint.extensions[index[0]]
-                if len(index) == 2:
-                    value = value[index[1]]  # index indicates it's a child extension
-            except Exception as e:
-                # print("probably an issue with power :(")
-                # print(e)
-                f = 0.0
-            try:
-                f = float(value.text)
-            except Exception as e:
-                # print("probably an issue with power :(")
-                # print(e)
-                f = 0.0
-            return f
-
         data = defaultdict(list)
-        track_segment = self.gpx.tracks[0].segments[0]
-        previous_point = None
-        for ii, point in enumerate(track_segment.points):
-            for attribute in self.valid_attributes:
-                match attribute:
-                    case constant.ATTR_COURSE:
-                        data[attribute].append((point.latitude, point.longitude))
-                    case constant.ATTR_ELEVATION:
-                        data[attribute].append(point.elevation)
-                    case constant.ATTR_TIME:
-                        local_time = point.time.astimezone(
-                            pytz.timezone("Asia/Shanghai")
-                        )
-                        data[attribute].append(local_time)
-                    case constant.ATTR_SPEED:
-                        data[attribute].append(track_segment.get_speed(ii))
-                        # data[attribute].append(point.speed) - for some reason, point.speed isn't interpreted correctly (always None). maybe try other gpx files to see if it works in other cases?
-                    case constant.ATTR_GRADIENT:
-                        data[attribute].append(gradient(point, previous_point))
-                    case (
-                        constant.ATTR_CADENCE
-                        | constant.ATTR_HEARTRATE
-                        | constant.ATTR_POWER
-                        | constant.ATTR_TEMPERATURE
-                    ):
-                        data[attribute].append(
-                            parse_attribute(self.tag_map[attribute], point)
-                        )
-            previous_point = point
+        for attribute in self.df.columns:
+            match attribute:
+                case (
+                    constant.ATTR_CADENCE
+                    | constant.ATTR_HEARTRATE
+                    | constant.ATTR_POWER
+                    | constant.ATTR_TEMPERATURE
+                    | constant.ATTR_GRADIENT
+                    | constant.ATTR_SPEED
+                    | constant.ATTR_ELEVATION
+                    | constant.ATTR_COURSE
+                    | constant.ATTR_TIME
+                ):
+                    data[attribute] = self.df[attribute].tolist()
+                    self.valid_attributes.add(attribute)
 
         for attribute in self.valid_attributes:
             if attribute == constant.ATTR_GRADIENT:
@@ -158,12 +142,8 @@ class Activity:
             _type_: _description_
         """
 
-        start_time = datetime.datetime.strptime(
-            f"{start_time} +0800", "%Y-%m-%d %H:%M:%S %z"
-        )
-        end_time = datetime.datetime.strptime(
-            f"{end_time} +0800", "%Y-%m-%d %H:%M:%S %z"
-        )
+        start_time = datetime.datetime.strptime(start_time, "%Y-%m-%d %H:%M:%S")
+        end_time = datetime.datetime.strptime(end_time, "%Y-%m-%d %H:%M:%S")
 
         start = self.time.index(start_time)
         end = self.time.index(end_time)
