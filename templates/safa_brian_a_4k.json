@@ -124,7 +124,7 @@
     "opacity": 0.5
   },
   "scene": {
-    "fps": 30,
+    "fps": 60,
     "start": 0,
     "end": 0,
     "start_time": "2024-05-15 07:12:20",

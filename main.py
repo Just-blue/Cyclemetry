@@ -1,7 +1,6 @@
 import subprocess
 import sys
 import argparse
-import constant
 from activity import Activity
 from scene import Scene
 
@@ -48,7 +47,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(
         description="Render overlay using GPX and JSON template"
     )
-    parser.add_argument("--gpx", type=str, required=True, help="Path to the GPX file")
+    parser.add_argument("--fit", type=str, required=True, help="Path to the Fit file")
     parser.add_argument(
         "--template", type=str, required=True, help="JSON template filename"
     )
@@ -61,13 +60,13 @@ if __name__ == "__main__":
     if args.demo:
         while True:
             print(
-                f"demoing frame using the {args.template} template and {args.gpx} gpx file"
+                f"demoing frame using the {args.template} template and {args.fit} file"
             )
-            scene = demo_frame(args.gpx, args.template, args.second)
+            scene = demo_frame(args.fit, args.template, args.second)
             input("Enter to re-render:")
             scene.update_configs(args.template)
     else:
         print(
-            f"rendering overlay using the {args.template} template and {args.gpx} gpx file"
+            f"rendering overlay using the {args.template} template and {args.fit} file"
         )
-        render_overlay(args.gpx, args.template)
+        render_overlay(args.fit, args.template)
