@@ -4,7 +4,7 @@ from datetime import timedelta
 from PIL import Image, ImageColor, ImageDraw, ImageFont
 
 import constant
-from plot import build_image
+from plot import build_image, build_gear_image
 
 
 class Frame:
@@ -46,6 +46,16 @@ class Frame:
             config["font_size"],
             config["font"],
         )
+        return img
+
+    def draw_gear(self, img, config, attribute, figure, fps=None):
+
+        front_gear, rear_gear = self.gear
+
+        plot_img, buffer = build_gear_image(figure, config, front_gear, rear_gear)
+
+        img.paste(plot_img, (config["x"], config["y"]), plot_img)
+        buffer.close()  # faster to not close the buffer? maybe just small sample size - seems like better practice to close though, so let's for now
         return img
 
     def draw_figure(self, img, config, attribute, figure, fps=None):
@@ -98,6 +108,14 @@ class Frame:
                         img = self.draw_figure(
                             img,
                             config["profile"],
+                            attribute,
+                            figures[attribute],
+                            fps=configs["scene"]["fps"],
+                        )
+                    elif attribute == constant.ATTR_GEAR:
+                        img = self.draw_gear(
+                            img,
+                            config,
                             attribute,
                             figures[attribute],
                             fps=configs["scene"]["fps"],

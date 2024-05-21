@@ -2,6 +2,24 @@
     "cadence": {
         "hide": true
     },
+    "gear": {
+        "dpi": 300,
+        "x": 3400,
+        "y": 1800,
+        "hide": false,
+        "line_width": 1.75,
+        "width": 250,
+        "height": 200,
+        "color": "#f4f4f4",
+        "cover_color":"gray",
+        "front_gear":"5034T",
+        "rear_gear":"1128T",
+        "margin": 0.1,
+        "f_zoom": 9,
+        "interval": -1,
+        "r_bar_width":0.8,
+        "f_bar_width":2
+    },
     "course": {
         "dpi": 300,
         "x": -35,
@@ -129,11 +147,11 @@
         "opacity": 0.5
     },
     "scene": {
-        "fps": 60,
+        "fps": 25,
         "start": 0,
         "end": 0,
         "start_time": "2024-05-15 07:12:20",
-        "end_time": "2024-05-15 07:26:18",
+        "end_time": "2024-05-15 07:15:18",
         "height": 2160,
         "width": 3840,
         "quicktime_compatible": false,

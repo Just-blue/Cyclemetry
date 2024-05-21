@@ -44,6 +44,28 @@ class Activity:
                 "heart_rate",
             ]
         ]
+
+        # 遍历FIT文件中的所有event
+        gear_data = []
+
+        for event in self.fitfile.get_messages("event"):
+            if (
+                event.name == "event"
+                and event.get("front_gear")
+                and event.get("rear_gear")
+            ):
+                gear_data.append(
+                    {
+                        "timestamp": event.get_value("timestamp"),
+                        "front_gear": event.get_value("front_gear"),
+                        "rear_gear": event.get_value("rear_gear"),
+                    }
+                )
+        # 将数据转换为DataFrame格式
+        df_gear = pd.DataFrame(gear_data)
+
+        df = df.merge(df_gear, on=["timestamp"], how="left")
+
         df["timestamp"] = (
             pd.to_datetime(df["timestamp"])
             .dt.tz_localize("UTC")
@@ -53,15 +75,20 @@ class Activity:
 
         df.set_index("timestamp", inplace=True, drop=False)
 
-        # # 对每列缺失的数据进行补数
+        # 对每列缺失的数据进行补数
         df["power"] = df["power"].interpolate(method="linear")
         df["cadence"] = df["cadence"].interpolate(method="linear")
         df["temperature"] = df["temperature"].interpolate(method="linear")
         df["speed"] = df["speed"].interpolate(method="linear")
         df["heart_rate"] = df["heart_rate"].interpolate(method="linear")
-        df.fillna(method="ffill", inplace=True)  # 前向填充
-        df.fillna(method="bfill", inplace=True)  # 后向填充
+        df["rear_gear"] = df["rear_gear"].ffill()
+        df["front_gear"] = df["front_gear"].ffill()
+        df = df.ffill()  # 前向填充
+        df = df.bfill()  # 后向填充
+        df = df.astype({"front_gear": int, "rear_gear": int})
         df["course"] = list(zip(df["position_lat"], df["position_long"]))
+        df["gear"] = list(zip(df["front_gear"], df["rear_gear"]))
+        # 将rear_gears与front_gears填充补数数据，填充逻辑为和前一个点数值一致
         df.rename(
             columns={
                 "altitude": constant.ATTR_ELEVATION,
@@ -87,6 +114,7 @@ class Activity:
                     | constant.ATTR_ELEVATION
                     | constant.ATTR_COURSE
                     | constant.ATTR_TIME
+                    | constant.ATTR_GEAR
                 ):
                     data[attribute] = self.df[attribute].tolist()
                     self.valid_attributes.add(attribute)
@@ -112,6 +140,9 @@ class Activity:
                 new_lat = helper([ele[0] for ele in data])
                 new_lon = helper([ele[1] for ele in data])
                 new_data = list(zip(new_lat, new_lon))
+            elif attribute == constant.ATTR_GEAR:
+                data_arr = np.array(data)
+                new_data = np.repeat(data_arr,fps,axis=0).tolist()
             else:
                 new_data = helper(data)
             setattr(self, attribute, new_data)

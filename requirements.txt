@@ -29,3 +29,5 @@ tsmoothie==1.0.4
 wcwidth==0.2.6
 Werkzeug==3.0.2
 pytz
+fitparse
+pandas

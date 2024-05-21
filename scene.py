@@ -10,7 +10,7 @@ from tqdm import tqdm
 
 import constant
 from frame import Frame
-from plot import build_figure
+from plot import build_figure, build_gear
 
 
 class Scene:
@@ -60,6 +60,16 @@ class Scene:
             [ii for ii in range(len(self.activity.elevation))],
             self.activity.elevation,
             self.activity.gradient,
+        )
+        front_gear = constant.REAR_MAP.get(
+            self.template[constant.ATTR_GEAR]["front_gear"]
+        )
+        rear_gear = constant.REAR_MAP.get(
+            self.template[constant.ATTR_GEAR]["rear_gear"]
+        )
+        assert front_gear and rear_gear, "gear ratio setting error! "
+        self.figs[constant.ATTR_GEAR] = build_gear(
+            self.template[constant.ATTR_GEAR], front_gear, rear_gear
         )
 
     # warning: quicktime_compatible codec produces nearly x5 larger file
