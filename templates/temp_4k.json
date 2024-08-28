@@ -1,0 +1,234 @@
+{
+    "gear": {
+        "dpi": 300,
+        "x": 3250,
+        "y": 1600,
+        "hide": false,
+        "line_width": 1.75,
+        "width": 350,
+        "height": 250,
+        "color": "#c2ccd0",
+        "cover_color":"gray",
+        "front_gear":"5034T",
+        "rear_gear":"1128T",
+        "margin": 0.1,
+        "f_zoom": 9,
+        "interval": -1,
+        "r_bar_width":0.8,
+        "f_bar_width":2
+    },
+    "course": {
+        "dpi": 300,
+        "x": -0,
+        "y": 140,
+        "hide": false,
+        "line_width": 1.75,
+        "point_weight": 80,
+        "width": 1500,
+        "height": 100,
+        "color": "#f4f4f4",
+        "margin": 0.1,
+        "sub_point": {
+            "point_weight": 345,
+            "opacity": 0.52
+        },
+        "rotation": -85
+    },
+    "elevation": {
+        "dpi": 300,
+        "x": 0,
+        "y": 60,
+        "hide": false,
+        "profile": {
+            "color": "#f4f4f4",
+            "dpi": 300,
+            "line_width": 2,
+            "hide": false,
+            "x": -193,
+            "y": 1470,
+            "reverse": true,
+            "width": 1000,
+            "height": 600,
+            "rotation": 0,
+            "point_weight": 14,
+            "point_label": {
+                "color": "#ffffffc8",
+                "font": "Furore.otf",
+                "round": 0,
+                "x_offset": 20,
+                "y_offset": 20,
+                "font_size": 12.5,
+                "units": [
+                    "metric"
+                ]
+            },
+            "slope_area": [
+                {
+                    "start": 0,
+                    "end": 5,
+                    "fill_opacity": 0.2
+                },
+                {
+                    "start": 5,
+                    "end": 8,
+                    "fill_opacity": 0.4
+                },
+                {
+                    "start": 8,
+                    "end": 100,
+                    "fill_opacity": 0.75
+                }
+            ]
+        }
+    },
+    "gradient": {
+        "color": "#ffffff96",
+        "x": 80,
+        "y": 1900,
+        "hide": false,
+        "font_size": 192,
+        "suffix": ""
+    },
+    "heartrate": {
+        "color": "#ffffff96",
+        "opacity": 0.3,
+        "x": 3300,
+        "y": 634, 
+        "font_size": 255,
+        "hide": false,
+        "suffix": ""
+    },
+    "power": {
+        "color": "#ffffff96",
+        "x": 3300,
+        "y": 964,
+        "font_size": 255,
+        "hide": false,
+        "suffix": ""
+    },
+    "speed": {
+        "hide": false,
+        "opacity": 0.3,
+        "metric": {
+            "color": "#ffffff96",
+            "x": 3300,
+            "y": 319,
+            "font_size": 255,
+            "hide": false,
+            "suffix": ""
+        }
+    },
+    "cadence": {
+        "hide": false,
+        "color": "#ffffff96",
+        "x": 3300,
+        "y": 1300,
+        "font_size": 255,
+        "suffix": ""
+    },
+    "distance": {
+        "hide": false,
+        "color":"#f4f4f4",
+        "x": 60,
+        "y": 60,
+        "font_size": 100,
+        "suffix": ""
+    },
+    "time": {
+        "color": "#f4f4f4",
+        "x": 60,
+        "y": 230,
+        "second_offset": -2070,
+        "format": "%M:%S",
+        "font_size": 100,
+        "hide": false,
+        "suffix": ""
+    },
+    "temperature": {
+        "hide": true,
+        "color": "#ffffff96",
+        "x": 3300,
+        "y": 40,
+        "font_size": 255,
+        "suffix": "°"
+
+    },
+    "global": {
+        "font_size": 30,
+        "font": "Evogria.otf",
+        "color": "#ffffff",
+        "round": 0,
+        "opacity": 0.5
+    },
+    "scene": {
+        "fps": 60,
+        "start": 0,
+        "end": 0,
+        "start_time": "2024-08-03 08:34:30",
+        "end_time": "2024-08-03 09:07:10",
+        "height": 2160,
+        "width": 3840,
+        "quicktime_compatible": false,
+        "output_filename": "W:\\ybp\\240803_4k60fps.mov"
+    },
+    "labels": [
+        {
+            "color": "#f4f4f4",
+            "text": "Time",
+            "x": 70,
+            "y": 180,
+            "hide": false,
+            "font_size": 50
+        },
+        {
+            "color": "#f4f4f4",
+            "text": "KM",
+            "x": 70,
+            "y": 10,
+            "hide": false,
+            "font_size": 50
+        },
+        {
+            "color": "#ffffff96",
+            "text": "RPM",
+            "x": 3320,
+            "y": 1255,
+            "hide": false,
+            "font_size": 70
+        },
+        {
+            "color": "#ffffff96",
+            "text": "HR",
+            "x": 3320,
+            "y": 605,
+            "hide": false,
+            "font_size": 70
+        },
+        {
+            "color": "#ffffff96",
+            "text": "KMH",
+            "x": 3320,
+            "y": 270,
+            "hide": false,
+            "font_size": 70
+        },
+        {
+            "color": "#ffffff96",
+            "text": "PWR",
+            "x": 3320,
+            "y": 925,
+            "hide": false,
+            "font_size": 70,
+            "opacity": 0.5
+        },
+        {
+            "color": "#ffffff96",
+            "text": "Grad.",
+            "x": 85,
+            "y": 1859,
+            "hide": false,
+            "font_size": 60,
+            "opacity": 0.5
+        }
+    ]
+}

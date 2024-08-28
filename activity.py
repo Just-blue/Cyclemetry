@@ -33,6 +33,7 @@ class Activity:
         df = df[
             [
                 "timestamp",
+                "distance",
                 "power",
                 "altitude",
                 "position_lat",
@@ -75,7 +76,10 @@ class Activity:
 
         df.set_index("timestamp", inplace=True, drop=False)
 
+        df["distance"] /= 1000
+
         # 对每列缺失的数据进行补数
+        df["distance"] = df["distance"].interpolate(method="linear")
         df["power"] = df["power"].interpolate(method="linear")
         df["cadence"] = df["cadence"].interpolate(method="linear")
         df["temperature"] = df["temperature"].interpolate(method="linear")
@@ -115,6 +119,7 @@ class Activity:
                     | constant.ATTR_COURSE
                     | constant.ATTR_TIME
                     | constant.ATTR_GEAR
+                    | constant.ATTR_DISTANCE
                 ):
                     data[attribute] = self.df[attribute].tolist()
                     self.valid_attributes.add(attribute)
@@ -142,7 +147,7 @@ class Activity:
                 new_data = list(zip(new_lat, new_lon))
             elif attribute == constant.ATTR_GEAR:
                 data_arr = np.array(data)
-                new_data = np.repeat(data_arr,fps,axis=0).tolist()
+                new_data = np.repeat(data_arr, fps, axis=0).tolist()
             else:
                 new_data = helper(data)
             setattr(self, attribute, new_data)
@@ -160,7 +165,11 @@ class Activity:
                     f"invalid scene end value in config. Value should be less than {len(data)} and greater than {start}. Current value is {end}"
                 )
                 exit(1)
-            setattr(self, attribute, data[start:end])
+            if attribute == constant.ATTR_DISTANCE:
+                values = np.array(data[start:end]) - data[start]
+                setattr(self, attribute, values.tolist())
+            else:
+                setattr(self, attribute, data[start:end])
 
     def sth(self, start_time, end_time):
         """_summary_

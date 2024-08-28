@@ -122,11 +122,12 @@ class Frame:
                         )
                     else:
                         if attribute == constant.ATTR_TIME:
-                            # TODO - try to use timezone instead of offset
                             value += timedelta(seconds=config["second_offset"])
                             value = value.strftime(config["format"])
                             if config["format"].endswith(".%f"):
-                                value = value[:-3]  # 只保留到2位小数
+                                value = value[:-3]  # 只保留到3位小数
+                        elif attribute == constant.ATTR_DISTANCE:
+                            value = "{:.2f}".format(value)  # 转km单位
 
                         img = self.draw_value(img, value, config)
         for label in self.labels:

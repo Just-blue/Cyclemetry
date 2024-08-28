@@ -28,6 +28,7 @@ ATTR_HEARTRATE = "heartrate"
 ATTR_POWER = "power"
 ATTR_SPEED = "speed"
 ATTR_TIME = "time"
+ATTR_DISTANCE = "distance"
 ATTR_TEMPERATURE = "temperature"
 ATTR_GEAR = "gear"
 
