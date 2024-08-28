@@ -12,7 +12,7 @@ The following changes have been made in this fork:
 
 
 ## Cyclemetry - generate Fit video overlays
-![templates](assets/mfs_20240828155344.png)
+![templates](assets/mfs_20240828155344.jpeg)
 
 ![The_Tremola_by Safa_Brian](https://github.com/walkersutton/cyclemetry/assets/25811783/71aa4902-dd29-453f-b4a5-a87ddabd2437)
 
