@@ -1,4 +1,17 @@
-# Cyclemetry - generate GPX video overlays
+## Forked from Original Repository
+
+This project is a fork of [cyclemetry](https://github.com/walkersutton/cyclemetry) by [walkersutton](https://github.com/walkersutton). The original project was designed to generate GPX video overlays。
+
+## Modifications in This Fork
+
+The following changes have been made in this fork:
+- Added Shimano di2 Gear display for monitoring gear shifts during rides.
+- Adapted grad feature for climbing, including dynamic adjustments based on the gradient.
+- Added distance display for tracking total distance covered.
+- Modified the input file format to support FIT files.
+
+
+## Cyclemetry - generate Fit video overlays
 ![The_Tremola_by Safa_Brian](https://github.com/walkersutton/cyclemetry/assets/25811783/71aa4902-dd29-453f-b4a5-a87ddabd2437)
 
 ## Features
@@ -11,8 +24,11 @@
 ```sh
 (venv) $ python main.py <gpx_file> <template_filename>
 ```
+
 ## Templates
-* [Safa Brian A](https://github.com/walkersutton/cyclemetry/blob/main/templates/safa_brian_a.json) (featured image on readme)
+(featured image on readme)
+* [modified version](templates/temp_4k.json)
+* [Safa Brian A](https://github.com/walkersutton/cyclemetry/blob/main/templates/safa_brian_a.json) 
 
 ### Designing Templates - UNDER DEVELOPMENT
 [Template Designer](https://walkersutton.com/cyclemetry/)
