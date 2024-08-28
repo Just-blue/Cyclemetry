@@ -12,7 +12,10 @@ The following changes have been made in this fork:
 
 
 ## Cyclemetry - generate Fit video overlays
+![templates](assets/mfs_20240828155344.png)
+
 ![The_Tremola_by Safa_Brian](https://github.com/walkersutton/cyclemetry/assets/25811783/71aa4902-dd29-453f-b4a5-a87ddabd2437)
+
 
 ## Features
 * Live course tracking
@@ -26,9 +29,8 @@ The following changes have been made in this fork:
 ```
 
 ## Templates
-(featured image on readme)
 * [modified version](templates/temp_4k.json)
-* [Safa Brian A](https://github.com/walkersutton/cyclemetry/blob/main/templates/safa_brian_a.json) 
+* [Safa Brian A](templates/safa_brian_a.json) 
 
 ### Designing Templates - UNDER DEVELOPMENT
 [Template Designer](https://walkersutton.com/cyclemetry/)
@@ -42,7 +44,7 @@ Tested using Python 3.11.4 and 3.11.6 on MacOS Ventura and MacOS Sonoma
 **Not working on Python 3.12.0 (distutils dependency issue)**
 
 ```sh
-$ git clone https://github.com/walkersutton/cyclemetry.git
+$ git clone https://github.com/Just-blue/Cyclemetry.git
 $ cd cyclemetry
 $ python3 -m venv venv
 $ source venv/bin/activate
